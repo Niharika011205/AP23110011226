@@ -1,0 +1,433 @@
+{
+  "info": {
+    "name": "Notification System API",
+    "description": "Complete API collection for Notification System Microservice",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Create Notification",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer token123"
+          },
+          {
+            "key": "X-User-ID",
+            "value": "user_123"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Placement Drive - Amazon\",\n  \"message\": \"Amazon is conducting a hiring drive. Register now!\",\n  \"type\": \"placement\",\n  \"priority\": \"high\",\n  \"metadata\": {\n    \"companyId\": \"amazon_001\",\n    \"driveId\": \"drive_456\",\n    \"registrationDeadline\": \"2026-05-10\"\n  }\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/notifications",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "notifications"]
+        }
+      },
+      "response": [
+        {
+          "name": "201 Created",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/v1/notifications",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "v1", "notifications"]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"recipientId\": \"user_123\",\n  \"type\": \"placement\",\n  \"title\": \"Placement Drive - Amazon\",\n  \"message\": \"Amazon is conducting a hiring drive. Register now!\",\n  \"priority\": \"high\",\n  \"isRead\": false,\n  \"metadata\": {\n    \"companyId\": \"amazon_001\",\n    \"driveId\": \"drive_456\",\n    \"registrationDeadline\": \"2026-05-10\"\n  },\n  \"createdAt\": \"2026-05-02T10:30:00Z\",\n  \"updatedAt\": \"2026-05-02T10:30:00Z\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "2. Get All Notifications",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer token123"
+          },
+          {
+            "key": "X-User-ID",
+            "value": "user_123"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/notifications?page=1&limit=20&isRead=false&type=placement&days=30",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "notifications"],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "20"
+            },
+            {
+              "key": "isRead",
+              "value": "false"
+            },
+            {
+              "key": "type",
+              "value": "placement"
+            },
+            {
+              "key": "days",
+              "value": "30"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"data\": [\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"recipientId\": \"user_123\",\n      \"type\": \"placement\",\n      \"title\": \"Placement Drive - Amazon\",\n      \"message\": \"Amazon is conducting a hiring drive. Register now!\",\n      \"priority\": \"high\",\n      \"isRead\": false,\n      \"createdAt\": \"2026-05-02T10:30:00Z\"\n    },\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440001\",\n      \"recipientId\": \"user_123\",\n      \"type\": \"placement\",\n      \"title\": \"Google Hiring Drive\",\n      \"message\": \"Google is hiring for SDE positions\",\n      \"priority\": \"high\",\n      \"isRead\": false,\n      \"createdAt\": \"2026-05-01T15:45:00Z\"\n    }\n  ],\n  \"pagination\": {\n    \"page\": 1,\n    \"limit\": 20,\n    \"total\": 45,\n    \"totalPages\": 3\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "3. Get Unread Count",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer token123"
+          },
+          {
+            "key": "X-User-ID",
+            "value": "user_123"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/notifications/count",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "notifications", "count"]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"count\": 12\n}"
+        }
+      ]
+    },
+    {
+      "name": "4. Get Top 10 Priority Notifications",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer token123"
+          },
+          {
+            "key": "X-User-ID",
+            "value": "user_123"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/notifications/priority",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "notifications", "priority"]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"data\": [\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"recipientId\": \"user_123\",\n      \"type\": \"placement\",\n      \"title\": \"Placement Drive - Amazon\",\n      \"message\": \"Amazon is conducting a hiring drive\",\n      \"priority\": \"high\",\n      \"isRead\": false,\n      \"createdAt\": \"2026-05-02T10:30:00Z\",\n      \"priority_score\": 98.5\n    },\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440001\",\n      \"recipientId\": \"user_123\",\n      \"type\": \"placement\",\n      \"title\": \"Google Hiring Drive\",\n      \"message\": \"Google is hiring for SDE positions\",\n      \"priority\": \"high\",\n      \"isRead\": false,\n      \"createdAt\": \"2026-05-01T15:45:00Z\",\n      \"priority_score\": 95.2\n    },\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440002\",\n      \"recipientId\": \"user_123\",\n      \"type\": \"result\",\n      \"title\": \"Exam Results Published\",\n      \"message\": \"Your exam results are now available\",\n      \"priority\": \"medium\",\n      \"isRead\": false,\n      \"createdAt\": \"2026-05-02T09:15:00Z\",\n      \"priority_score\": 52.3\n    }\n  ]\n}"
+        }
+      ]
+    },
+    {
+      "name": "5. Get Placement Notifications (Last 7 Days)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer token123"
+          },
+          {
+            "key": "X-User-ID",
+            "value": "user_123"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/notifications/placement",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "notifications", "placement"]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"data\": [\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"recipientId\": \"user_123\",\n      \"type\": \"placement\",\n      \"title\": \"Placement Drive - Amazon\",\n      \"message\": \"Amazon is conducting a hiring drive\",\n      \"priority\": \"high\",\n      \"createdAt\": \"2026-05-02T10:30:00Z\"\n    },\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440001\",\n      \"recipientId\": \"user_123\",\n      \"type\": \"placement\",\n      \"title\": \"Google Hiring Drive\",\n      \"message\": \"Google is hiring for SDE positions\",\n      \"priority\": \"high\",\n      \"createdAt\": \"2026-05-01T15:45:00Z\"\n    },\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440003\",\n      \"recipientId\": \"user_123\",\n      \"type\": \"placement\",\n      \"title\": \"Microsoft Hiring Drive\",\n      \"message\": \"Microsoft is hiring for Cloud positions\",\n      \"priority\": \"high\",\n      \"createdAt\": \"2026-04-28T12:00:00Z\"\n    }\n  ]\n}"
+        }
+      ]
+    },
+    {
+      "name": "6. Mark Notification as Read",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer token123"
+          },
+          {
+            "key": "X-User-ID",
+            "value": "user_123"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"isRead\": true\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/notifications/550e8400-e29b-41d4-a716-446655440000/read",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "notifications", "550e8400-e29b-41d4-a716-446655440000", "read"]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"recipientId\": \"user_123\",\n  \"type\": \"placement\",\n  \"title\": \"Placement Drive - Amazon\",\n  \"message\": \"Amazon is conducting a hiring drive\",\n  \"priority\": \"high\",\n  \"isRead\": true,\n  \"updatedAt\": \"2026-05-02T10:35:00Z\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "7. Mark All Notifications as Read",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer token123"
+          },
+          {
+            "key": "X-User-ID",
+            "value": "user_123"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/notifications/read-all",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "notifications", "read-all"]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"updatedCount\": 12\n}"
+        }
+      ]
+    },
+    {
+      "name": "8. Delete Notification",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer token123"
+          },
+          {
+            "key": "X-User-ID",
+            "value": "user_123"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/api/v1/notifications/550e8400-e29b-41d4-a716-446655440000",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "notifications", "550e8400-e29b-41d4-a716-446655440000"]
+        }
+      },
+      "response": [
+        {
+          "name": "204 No Content",
+          "status": "No Content",
+          "code": 204,
+          "header": []
+        }
+      ]
+    },
+    {
+      "name": "9. Broadcast Notification (Admin)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer token123"
+          },
+          {
+            "key": "X-User-ID",
+            "value": "admin_001"
+          },
+          {
+            "key": "X-User-Role",
+            "value": "admin"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"System Maintenance Alert\",\n  \"content\": \"The system will be under maintenance on 2026-05-05 from 2 AM to 4 AM IST. Please plan accordingly.\",\n  \"type\": \"event\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/v1/notifications/broadcast",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "v1", "notifications", "broadcast"]
+        }
+      },
+      "response": [
+        {
+          "name": "202 Accepted",
+          "status": "Accepted",
+          "code": 202,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"notificationId\": \"550e8400-e29b-41d4-a716-446655440999\",\n  \"status\": \"queued\",\n  \"message\": \"Broadcast notification queued for processing\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "10. Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/health",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["health"]
+        }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "status": "OK",
+          "code": 200,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"ok\"\n}"
+        }
+      ]
+    }
+  ]
+}
